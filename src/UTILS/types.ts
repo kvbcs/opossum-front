@@ -3,7 +3,7 @@ export type Auth = {
   lastName?: string;
   email: string;
   password: string;
-  gdprAccepted: boolean;
+  gdprAccepted?: boolean;
 };
 
 export enum Role {

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   FormGroup,
   FormControl,
@@ -16,6 +16,7 @@ import { AuthService } from '../../../SERVICES/AUTH/auth.service';
 })
 export class RegisterComponent {
   private readonly authService = inject(AuthService);
+  private router = inject(Router);
 
   constructor() {}
   registerForm: FormGroup = new FormGroup({
@@ -42,8 +43,12 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       console.log('Form submitted:', this.registerForm.value);
       this.authService.register(this.registerForm.value).subscribe({
-        next(res) {
+        next: (res) => {
           console.log(res);
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error('Registration failed:', err);
         },
       });
     } else {
