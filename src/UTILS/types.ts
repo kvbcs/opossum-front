@@ -34,6 +34,7 @@ export enum Status {
 }
 
 export type Listing = {
+  id: number;
   title: string;
   description: string;
   photo: string;
@@ -43,4 +44,13 @@ export type Listing = {
   type: Type;
   status: Status;
   user: User;
+};
+
+export type Message = {
+  id: number;
+  message: string;
+  isSignaled: boolean;
+  listing: Listing;
+  sender: User;
+  recipient: User;
 };

@@ -1,38 +1,32 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
-import { Listing } from '../../UTILS/types';
+import { Observable, tap } from 'rxjs';
+import { Message } from '../../UTILS/types';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ListingService {
+export class MessagesService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  readonly baseUrl: string = 'http://localhost:8080/listings';
+  readonly baseUrl: string = 'http://localhost:8080/messages';
 
   getHeaders() {
     const token = localStorage.getItem('token');
     return {
-      headers: {
+      headers: new HttpHeaders({
         Authorization: `Bearer ${token}`,
-      },
+      }),
     };
   }
 
-  getListings(): Observable<Listing[]> {
-    return this.http.get<Listing[]>(`${this.baseUrl}`, this.getHeaders()).pipe(
-      tap((res) => {
-        console.log(res);
-        return res;
-      })
-    );
-  }
-
-  getListingById(id: number): Observable<Listing> {
+  getMessagesBetweenUsers(recipientId: number): Observable<Message[]> {
     return this.http
-      .get<Listing>(`${this.baseUrl}/${id}`, this.getHeaders())
+      .get<Message[]>(
+        `${this.baseUrl}/between/${recipientId}`,
+        this.getHeaders()
+      )
       .pipe(
         tap((res) => {
           console.log(res);
@@ -41,9 +35,9 @@ export class ListingService {
       );
   }
 
-  createListing(listing: Listing): Observable<Listing> {
+  getMessageById(id: number): Observable<Message> {
     return this.http
-      .post<Listing>(`${this.baseUrl}`, listing, this.getHeaders())
+      .get<Message>(`${this.baseUrl}/${id}`, this.getHeaders())
       .pipe(
         tap((res) => {
           console.log(res);
@@ -52,9 +46,13 @@ export class ListingService {
       );
   }
 
-  updateListing(id: number, listing: Listing): Observable<Listing> {
+  createMessage(recipientId: number, message: Message): Observable<Message> {
     return this.http
-      .put<Listing>(`${this.baseUrl}/${id}`, listing, this.getHeaders())
+      .post<Message>(
+        `${this.baseUrl}/${recipientId}`,
+        message,
+        this.getHeaders()
+      )
       .pipe(
         tap((res) => {
           console.log(res);
@@ -63,9 +61,9 @@ export class ListingService {
       );
   }
 
-  archiveListing(id: number): Observable<Listing> {
+  deleteMessage(id: number): Observable<Message> {
     return this.http
-      .put<Listing>(`${this.baseUrl}/${id}/archive`, null, this.getHeaders())
+      .delete<Message>(`${this.baseUrl}/${id}`, this.getHeaders())
       .pipe(
         tap((res) => {
           console.log(res);
