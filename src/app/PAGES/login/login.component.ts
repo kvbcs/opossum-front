@@ -35,7 +35,7 @@ export class LoginComponent {
         next: (res: any) => {
           console.log(res);
           localStorage.setItem('token', res.token);
-          this.router.navigate(['/']);
+          this.router.navigate(['/listings']);
         },
         error: (err) => {
           console.error('Login failed:', err);
