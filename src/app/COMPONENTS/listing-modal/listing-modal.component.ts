@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ListingService } from '../../../SERVICES/LISTINGS/listing.service';
-import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-listing-modal',
@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ListingModalComponent {
   private readonly listingService = inject(ListingService);
-  private toast = inject(ToastrService);
+  // private toast = inject(ToastrService);
   createForm: FormGroup = new FormGroup({
     title: new FormControl('', [
       Validators.required,
@@ -42,17 +42,17 @@ export class ListingModalComponent {
 
   onSubmit(): void {
     if (this.createForm.valid) {
-      this.toast.success('Form submitted: ' + this.createForm.value, 'Success');
+      // this.toast.success('Form submitted: ' + this.createForm.value, 'Success');
       this.listingService.createListing(this.createForm.value).subscribe({
         next: (res) => {
           console.log(res);
         },
         error: (err) => {
-          this.toast.error('create failed: ' + err, 'Error');
+          // this.toast.error('create failed: ' + err, 'Error');
         },
       });
     } else {
-      this.toast.error('Invalid Form');
+      // this.toast.error('Invalid Form');
     }
   }
 }
