@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../SERVICES/AUTH/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { AuthService } from '../../../SERVICES/AUTH/auth.service';
 export class LoginComponent {
   private readonly authService = inject(AuthService);
   private router = inject(Router);
+  private snack = inject(MatSnackBar);
 
   constructor() {}
   loginForm: FormGroup = new FormGroup({
@@ -30,6 +32,12 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
+      this.snack.open('Message bien reçu !', 'Fermer', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-success'],
+      });
       console.log('Form submitted:', this.loginForm.value);
       this.authService.login(this.loginForm.value).subscribe({
         next: (res: any) => {
