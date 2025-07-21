@@ -2,16 +2,19 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ListingCardsComponent } from '../../COMPONENTS/listing-cards/listing-cards.component';
 import { Listing } from '../../../UTILS/types';
 import { ListingService } from '../../../SERVICES/LISTINGS/listing.service';
+import { ListingModalComponent } from '../../COMPONENTS/listing-modal/listing-modal.component';
 
 @Component({
   selector: 'app-listings',
-  imports: [ListingCardsComponent],
+  imports: [ListingCardsComponent, ListingModalComponent],
   templateUrl: './listings.component.html',
   styleUrl: './listings.component.css',
 })
 export class ListingsComponent implements OnInit {
   private listingService = inject(ListingService);
   listings = signal<Listing[]>([]);
+
+  createMode: boolean = false;
 
   ngOnInit(): void {
     try {

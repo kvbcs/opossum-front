@@ -18,7 +18,6 @@ export class RegisterComponent {
   private readonly authService = inject(AuthService);
   private router = inject(Router);
 
-  constructor() {}
   registerForm: FormGroup = new FormGroup({
     firstName: new FormControl('', [
       Validators.required,
