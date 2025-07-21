@@ -53,6 +53,7 @@
       <label for="photo">Photo</label
       ><input
         type="file"
+        (change)="onFileSelected($event)"
         name="photo"
         formControlName="photo"
         class="border-1 w-full rounded-2xl"

@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ListingService } from '../../../SERVICES/LISTINGS/listing.service';
+import { HttpClient } from '@angular/common/http';
 // import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -16,7 +17,7 @@ import { ListingService } from '../../../SERVICES/LISTINGS/listing.service';
 })
 export class ListingModalComponent {
   private readonly listingService = inject(ListingService);
-  // private toast = inject(ToastrService);
+  private http = inject(HttpClient);
   createForm: FormGroup = new FormGroup({
     title: new FormControl('', [
       Validators.required,
@@ -42,17 +43,32 @@ export class ListingModalComponent {
 
   onSubmit(): void {
     if (this.createForm.valid) {
-      // this.toast.success('Form submitted: ' + this.createForm.value, 'Success');
       this.listingService.createListing(this.createForm.value).subscribe({
         next: (res) => {
           console.log(res);
         },
         error: (err) => {
-          // this.toast.error('create failed: ' + err, 'Error');
+          console.log(err);
         },
       });
     } else {
-      // this.toast.error('Invalid Form');
+      console.log('form invalid');
+    }
+  }
+
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      this.http
+        .post<string>('http://localhost:8080/upload', formData)
+        .subscribe({
+          next: (filePath) => {
+            this.createForm.patchValue({ photo: filePath });
+          },
+        });
     }
   }
 }
