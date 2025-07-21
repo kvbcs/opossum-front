@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../../SERVICES/AUTH/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,7 @@ import { AuthService } from '../../../SERVICES/AUTH/auth.service';
 export class RegisterComponent {
   private readonly authService = inject(AuthService);
   private router = inject(Router);
+  private snack = inject(MatSnackBar);
 
   registerForm: FormGroup = new FormGroup({
     firstName: new FormControl('', [
@@ -39,19 +41,42 @@ export class RegisterComponent {
   });
 
   onSubmit(): void {
-    if (this.registerForm.valid) {
-      console.log('Form submitted:', this.registerForm.value);
-      this.authService.register(this.registerForm.value).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.router.navigate(['/login']);
-        },
-        error: (err) => {
-          console.error('Registration failed:', err);
-        },
+    if (!this.registerForm.valid) {
+      this.snack.open('Invalid form!', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-error'],
       });
-    } else {
-      console.log('Form invalid');
+      return;
     }
+
+    this.authService.register(this.registerForm.value).subscribe({
+      next: () => {
+        this.snack.open(
+          'Register successful ! Please check your emails !',
+          'Close',
+          {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          }
+        );
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.snack.open(
+          'Registration failed! ' + err?.error?.message || 'Unknown error',
+          'Close',
+          {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
+          }
+        );
+      },
+    });
   }
 }

@@ -31,26 +31,41 @@ export class LoginComponent {
   });
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
-      this.snack.open('Message bien reçu !', 'Fermer', {
+    if (!this.loginForm.valid) {
+      this.snack.open('Invalid form!', 'Close', {
         duration: 3000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
-        panelClass: ['snackbar-success'],
+        panelClass: ['snackbar-error'],
       });
-      console.log('Form submitted:', this.loginForm.value);
-      this.authService.login(this.loginForm.value).subscribe({
-        next: (res: any) => {
-          console.log(res);
-          localStorage.setItem('token', res.token);
-          this.router.navigate(['/listings']);
-        },
-        error: (err) => {
-          console.error('Login failed:', err);
-        },
-      });
-    } else {
-      console.log('Form invalid');
+      return;
     }
+
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (res: any) => {
+        localStorage.setItem('token', res.token);
+
+        this.snack.open('Login successful!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success'],
+        });
+
+        this.router.navigate(['/listings']);
+      },
+      error: (err) => {
+        this.snack.open(
+          'Login failed! ' + err?.error?.message || 'Unknown error',
+          'Close',
+          {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
+          }
+        );
+      },
+    });
   }
 }

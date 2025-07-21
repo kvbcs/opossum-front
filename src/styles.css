@@ -10,18 +10,17 @@ body {
 }
 
 .snackbar-success {
-  background-color: #22c55e; /* Tailwind: green-500 */
+  background-color: #22c55e; 
   color: white;
-  margin-top: 100px;
-  width: 50%;
+ 
 }
 
 .snackbar-error {
-  background-color: #ef4444; /* Tailwind: red-500 */
+  background-color: #ef4444; 
   color: white;
 }
 
 .snackbar-warning {
-  background-color: #facc15; /* Tailwind: yellow-400 */
+  background-color: #facc15; 
   color: black;
 }
