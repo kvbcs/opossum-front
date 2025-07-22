@@ -9,11 +9,18 @@
     Create listing +
   </button>
   @if(createMode){
-  <app-listing-modal (cancel)="createMode = false"></app-listing-modal>
+  <app-listing-modal
+    [listingOnEdit]="selectedListing"
+    (cancel)="handleModalClose()"
+  ></app-listing-modal>
   } @if (listings().length === 0) {
   <p class="text-gray-400 italic">No listings found.</p>
   } @else { @for (listing of listings(); track listing.id) {
-  <app-listing-cards [listing]="listing" [createMessage]="createMessage"   (onArchived)="handleArchived($event)"
-/>
+  <app-listing-cards
+    [listing]="listing"
+    [createMessage]="createMessage"
+    (onArchived)="handleArchived($event)"
+    (edit)="onEdit($event)"
+  />
   }}
 </main>

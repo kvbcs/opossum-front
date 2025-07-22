@@ -20,20 +20,18 @@ export class ListingsComponent implements OnInit {
 
   createMode: boolean = false;
   createMessage: boolean = false;
+  selectedListing: Listing | undefined = undefined;
 
- 
   ngOnInit(): void {
+    this.loadListings();
+  }
+
+  loadListings(): void {
     this.listingService.getListings().subscribe({
       next: (data) => {
         const activeListings = data.filter((listing) => !listing.isArchived);
         this.listings.set(activeListings);
         console.log('Listings:', activeListings);
-        // this.snack.open('Listings loaded !', 'Close', {
-        //   duration: 3000,
-        //   horizontalPosition: 'right',
-        //   verticalPosition: 'top',
-        //   panelClass: ['snackbar-success'],
-        // });
       },
       error: (err) => {
         this.snack.open(
@@ -51,5 +49,16 @@ export class ListingsComponent implements OnInit {
   }
   handleArchived(id: number): void {
     this.listings.update((current) => current.filter((l) => l.id !== id));
+  }
+
+  handleModalClose(): void {
+    this.createMode = false;
+    this.selectedListing = undefined;
+    this.loadListings(); // Recharge correctement la liste via le signal
+  }
+
+  onEdit(listing: Listing): void {
+    this.selectedListing = listing;
+    this.createMode = true; // ouvrir la modale en mode édition
   }
 }

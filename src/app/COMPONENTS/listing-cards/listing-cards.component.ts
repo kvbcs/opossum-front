@@ -16,10 +16,10 @@ export class ListingCardsComponent {
   @Input() listing!: Listing;
   @Input() createMessage: boolean = false;
   @Output() onArchived = new EventEmitter<number>();
+  @Output() edit = new EventEmitter<Listing>();
 
   private listingService = inject(ListingService);
   private snack = inject(MatSnackBar);
-
   private jwtHelper = new JwtHelperService();
 
   isOwner(): boolean {
@@ -54,5 +54,9 @@ export class ListingCardsComponent {
         });
       },
     });
+  }
+
+  onEditClick(): void {
+    this.edit.emit(this.listing);
   }
 }
