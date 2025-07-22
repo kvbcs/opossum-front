@@ -21,6 +21,7 @@ export class ListingsComponent implements OnInit {
   createMode: boolean = false;
   createMessage: boolean = false;
 
+ 
   ngOnInit(): void {
     this.listingService.getListings().subscribe({
       next: (data) => {

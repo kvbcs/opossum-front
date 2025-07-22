@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { ListingService } from '../../../SERVICES/LISTINGS/listing.service';
 import { HttpClient } from '@angular/common/http';
+import { Listing } from '../../../UTILS/types';
 // import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -19,11 +20,24 @@ export class ListingModalComponent {
   private readonly listingService = inject(ListingService);
   private http = inject(HttpClient);
   @Output() cancel = new EventEmitter<void>();
+  @Input() editMode?: Listing;
+
+  ngOnInit(): void {
+    if (this.editMode) {
+      this.createForm.patchValue({
+        type: this.editMode.type,
+        title: this.editMode.title,
+        description: this.editMode.description,
+        localization: this.editMode.localization,
+        eventDate: this.editMode.eventDate,
+      });
+    }
+  }
 
   onCancel(): void {
     this.cancel.emit();
   }
-  
+
   createForm: FormGroup = new FormGroup({
     title: new FormControl('', [
       Validators.required,
@@ -53,17 +67,29 @@ export class ListingModalComponent {
   }
 
   onSubmit(): void {
-    if (this.createForm.valid) {
-      this.listingService.createListing(this.createForm.value).subscribe({
+    if (this.createForm.invalid) {
+      console.log('Form invalid');
+      return;
+    }
+
+    const data = this.createForm.value;
+
+    if (this.editMode) {
+      this.listingService.updateListing(this.editMode.id, data).subscribe({
         next: (res) => {
-          console.log(res);
+          console.log('Listing updated:', res);
+          this.cancel.emit();
         },
-        error: (err) => {
-          console.log(err);
-        },
+        error: (err) => console.error('Update error:', err),
       });
     } else {
-      console.log('form invalid');
+      this.listingService.createListing(data).subscribe({
+        next: (res) => {
+          console.log('Listing created:', res);
+          this.cancel.emit(); // ferme la modal
+        },
+        error: (err) => console.error('Create error:', err),
+      });
     }
   }
 

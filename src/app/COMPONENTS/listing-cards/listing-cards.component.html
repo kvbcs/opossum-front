@@ -1,5 +1,5 @@
-
 <main class="h-[75vh] w-[90%] m-auto flex flex-col justify-center items-center">
+  @if (isOwner()) {
   <div class="w-full flex flex-row justify-end items-center gap-2 mb-2">
     <button class="p-2 rounded-full w-10 h-10 bg-orange-400 text-white">
       <mat-icon fontIcon="edit"></mat-icon>
@@ -11,6 +11,7 @@
       <mat-icon fontIcon="delete"></mat-icon>
     </button>
   </div>
+  }
   <article
     class="h-full bg-white w-full m-auto rounded-2xl shadow-2xl shadow-black flex flex-col justify-between items-center"
   >
@@ -32,4 +33,3 @@
     </div>
   </article>
 </main>
-
