@@ -5,10 +5,16 @@ import { ListingService } from '../../../SERVICES/LISTINGS/listing.service';
 import { ListingModalComponent } from '../../COMPONENTS/listing-modal/listing-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
+import { MessageModalComponent } from '../../COMPONENTS/message-modal/message-modal.component';
 
 @Component({
   selector: 'app-listings',
-  imports: [ListingCardsComponent, ListingModalComponent, CommonModule],
+  imports: [
+    ListingCardsComponent,
+    ListingModalComponent,
+    CommonModule,
+    MessageModalComponent,
+  ],
   templateUrl: './listings.component.html',
   styleUrl: './listings.component.css',
   standalone: true,
@@ -21,7 +27,18 @@ export class ListingsComponent implements OnInit {
   createMode: boolean = false;
   createMessage: boolean = false;
   selectedListing: Listing | undefined = undefined;
+  selectedListingForMessage: Listing | null = null;
 
+  showMessageModal: boolean = false;
+  onSendMessage(listing: Listing): void {
+    this.selectedListingForMessage = listing;
+    this.showMessageModal = true;
+  }
+
+  closeMessageModal(): void {
+    this.showMessageModal = false;
+    this.selectedListingForMessage = null;
+  }
   ngOnInit(): void {
     this.loadListings();
   }

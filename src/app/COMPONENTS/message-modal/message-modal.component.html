@@ -1,0 +1,22 @@
+<main
+  class="h-screen fixed top-0 left-0 bg-black/50 flex flex-col items-center justify-center w-full"
+>
+  <form
+    (ngSubmit)="onSubmit()"
+    [formGroup]="messageForm"
+    class="w-[80%] h-[80%] overflow-auto rounded-2xl border-2 p-4 flex flex-col justify-around gap-4 bg-white"
+  >
+    <button
+      type="button"
+      class="absolute top-4 right-4 text-red-500 font-bold text-xl"
+      (click)="onCancel()"
+    >
+      ✖
+    </button>
+    <div>
+      <label for="message">Message</label
+      ><input type="text" formControlName="message" />
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</main>

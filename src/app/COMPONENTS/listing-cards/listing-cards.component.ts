@@ -4,11 +4,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { ListingService } from '../../../SERVICES/LISTINGS/listing.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({
   selector: 'app-listing-cards',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, MessageModalComponent],
   templateUrl: './listing-cards.component.html',
   styleUrl: './listing-cards.component.css',
 })
@@ -17,6 +18,18 @@ export class ListingCardsComponent {
   @Input() createMessage: boolean = false;
   @Output() onArchived = new EventEmitter<number>();
   @Output() edit = new EventEmitter<Listing>();
+  @Output() sendMessage = new EventEmitter<Listing>();
+  selectedListingForMessage: Listing | null = null;
+
+  onSendMessage(listing: Listing) {
+    this.selectedListingForMessage = listing;
+    this.createMessage = true;
+  }
+
+  closeMessageModal() {
+    this.createMessage = false;
+    this.selectedListingForMessage = null;
+  }
 
   private listingService = inject(ListingService);
   private snack = inject(MatSnackBar);

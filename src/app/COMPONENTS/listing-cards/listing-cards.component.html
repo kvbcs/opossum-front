@@ -29,10 +29,16 @@
       <p class="text-sm text-justify">{{ listing.description }}</p>
       <button
         class="p-3 bg-blue-500 rounded-full text-white font-bold mb-2 self-end"
-        (click)="(createMessage === true)"
+        (click)="sendMessage.emit(listing)"
       >
         Send Message
       </button>
     </div>
   </article>
+  @if (createMessage){
+    <app-message-modal
+  [listing]="selectedListingForMessage!"
+  (cancel)="closeMessageModal()"
+></app-message-modal>
+  }
 </main>

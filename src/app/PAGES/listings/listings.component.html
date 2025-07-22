@@ -18,9 +18,14 @@
   } @else { @for (listing of listings(); track listing.id) {
   <app-listing-cards
     [listing]="listing"
-    [createMessage]="createMessage"
     (onArchived)="handleArchived($event)"
     (edit)="onEdit($event)"
+    (sendMessage)="onSendMessage($event)"
   />
-  }}
+  }} @if (showMessageModal && selectedListingForMessage) {
+  <app-message-modal
+    [listing]="selectedListingForMessage"
+    (cancel)="closeMessageModal()"
+  ></app-message-modal>
+  }
 </main>
