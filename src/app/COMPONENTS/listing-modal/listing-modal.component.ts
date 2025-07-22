@@ -30,6 +30,7 @@ export class ListingModalComponent {
       Validators.maxLength(100),
     ]),
     photo: new FormControl('', Validators.required),
+    photoFile: new FormControl(null),
     eventDate: new FormControl('', [
       Validators.required,
       Validators.minLength(10),
@@ -40,6 +41,10 @@ export class ListingModalComponent {
       Validators.minLength(5),
     ]),
   });
+
+  get photoFileControl(): FormControl {
+    return this.createForm.get('photoFile') as FormControl;
+  }
 
   onSubmit(): void {
     if (this.createForm.valid) {
@@ -56,18 +61,19 @@ export class ListingModalComponent {
     }
   }
 
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
 
       this.http
-        .post<string>('http://localhost:8080/upload', formData)
+        .post<{ path: string }>('http://localhost:8080/upload', formData)
         .subscribe({
-          next: (filePath) => {
-            this.createForm.patchValue({ photo: filePath });
+          next: (res) => {
+            this.createForm.get('photo')?.setValue(res.path); 
           },
+          error: (err) => console.error('Erreur upload:', err),
         });
     }
   }

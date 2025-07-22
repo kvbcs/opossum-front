@@ -55,7 +55,7 @@
         type="file"
         (change)="onFileSelected($event)"
         name="photo"
-        formControlName="photo"
+        [formControl]="photoFileControl"
         class="border-1 w-full rounded-2xl"
       />
       @if (createForm.get('photo')?.touched &&
