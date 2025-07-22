@@ -19,30 +19,36 @@ export class ListingsComponent implements OnInit {
   listings = signal<Listing[]>([]);
 
   createMode: boolean = false;
+  createMessage: boolean = false;
 
   ngOnInit(): void {
-    try {
-      this.listingService.getListings().subscribe((data) => {
-        this.listings.set(data);
-        console.log(data);
-        this.snack.open('Listings loaded !', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['snackbar-success'],
-        });
-      });
-    } catch (err) {
-      this.snack.open(
-        'Error loading listings! ' + err || 'Unknown error',
-        'Close',
-        {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['snackbar-error'],
-        }
-      );
-    }
+    this.listingService.getListings().subscribe({
+      next: (data) => {
+        const activeListings = data.filter((listing) => !listing.isArchived);
+        this.listings.set(activeListings);
+        console.log('Listings:', activeListings);
+        // this.snack.open('Listings loaded !', 'Close', {
+        //   duration: 3000,
+        //   horizontalPosition: 'right',
+        //   verticalPosition: 'top',
+        //   panelClass: ['snackbar-success'],
+        // });
+      },
+      error: (err) => {
+        this.snack.open(
+          'Error loading listings! ' + (err?.message || 'Unknown error'),
+          'Close',
+          {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
+          }
+        );
+      },
+    });
+  }
+  handleArchived(id: number): void {
+    this.listings.update((current) => current.filter((l) => l.id !== id));
   }
 }

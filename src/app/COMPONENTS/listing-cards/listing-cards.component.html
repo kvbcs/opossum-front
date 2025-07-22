@@ -1,11 +1,35 @@
-<main class="h-[85vh] flex flex-col justify-center items-center">
+
+<main class="h-[75vh] w-[90%] m-auto flex flex-col justify-center items-center">
+  <div class="w-full flex flex-row justify-end items-center gap-2 mb-2">
+    <button class="p-2 rounded-full w-10 h-10 bg-orange-400 text-white">
+      <mat-icon fontIcon="edit"></mat-icon>
+    </button>
+    <button
+      class="p-2 w-10 h-10 rounded-full bg-red-600 text-white"
+      (click)="archiveListing()"
+    >
+      <mat-icon fontIcon="delete"></mat-icon>
+    </button>
+  </div>
   <article
-    class="h-[80%] bg-white w-[80%] m-auto rounded-2xl shadow-2xl shadow-black flex flex-col justify-between items-center"
+    class="h-full bg-white w-full m-auto rounded-2xl shadow-2xl shadow-black flex flex-col justify-between items-center"
   >
     <img
       [src]="'http://localhost:8080/' + listing.photo"
-      class="rounded-t-2xl"
+      class="rounded-t-2xl h-1/2 w-full"
     />
-    <h2 class="text-2xl mb-8">{{ listing.title }}</h2>
+    <div
+      class="h-1/2 flex flex-col items-start justify-evenly gap-2 w-full p-3 overflow-auto rounded-b-2xl"
+    >
+      <h2 class="text-2xl">{{ listing.title }}</h2>
+      <p class="text-sm text-justify">{{ listing.description }}</p>
+      <button
+        class="p-3 bg-blue-500 rounded-full text-white font-bold mb-2 self-end"
+        (click)="(createMessage === true)"
+      >
+        Message
+      </button>
+    </div>
   </article>
 </main>
+

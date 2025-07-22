@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,6 +18,12 @@ import { HttpClient } from '@angular/common/http';
 export class ListingModalComponent {
   private readonly listingService = inject(ListingService);
   private http = inject(HttpClient);
+  @Output() cancel = new EventEmitter<void>();
+
+  onCancel(): void {
+    this.cancel.emit();
+  }
+  
   createForm: FormGroup = new FormGroup({
     title: new FormControl('', [
       Validators.required,
@@ -71,7 +77,7 @@ export class ListingModalComponent {
         .post<{ path: string }>('http://localhost:8080/upload', formData)
         .subscribe({
           next: (res) => {
-            this.createForm.get('photo')?.setValue(res.path); 
+            this.createForm.get('photo')?.setValue(res.path);
           },
           error: (err) => console.error('Erreur upload:', err),
         });
