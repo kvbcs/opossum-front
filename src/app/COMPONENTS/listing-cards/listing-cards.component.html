@@ -1,8 +1,10 @@
 <main class="h-[75vh] w-[90%] m-auto flex flex-col justify-center items-center">
   @if (isOwner()) {
   <div class="w-full flex flex-row justify-end items-center gap-2 mb-2">
-    <button class="p-2 rounded-full w-10 h-10 bg-orange-400 text-white"   (click)="onEditClick()"
->
+    <button
+      class="p-2 rounded-full w-10 h-10 bg-orange-400 text-white"
+      (click)="onEditClick()"
+    >
       <mat-icon fontIcon="edit"></mat-icon>
     </button>
     <button
@@ -29,7 +31,7 @@
         class="p-3 bg-blue-500 rounded-full text-white font-bold mb-2 self-end"
         (click)="(createMessage === true)"
       >
-        Message
+        Send Message
       </button>
     </div>
   </article>

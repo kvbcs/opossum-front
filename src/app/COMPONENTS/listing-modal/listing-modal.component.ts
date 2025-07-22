@@ -32,7 +32,15 @@ export class ListingModalComponent {
         description: this.listingOnEdit.description,
         localization: this.listingOnEdit.localization,
         eventDate: this.listingOnEdit.eventDate,
+        photo: this.listingOnEdit.photo, // on patch aussi la photo
       });
+      // En mode édition : photo n’est pas requise (on garde la photo existante)
+      this.createForm.get('photo')?.clearValidators();
+      this.createForm.get('photo')?.updateValueAndValidity();
+    } else {
+      // En mode création : photo est requise
+      this.createForm.get('photo')?.setValidators(Validators.required);
+      this.createForm.get('photo')?.updateValueAndValidity();
     }
   }
 
@@ -51,7 +59,7 @@ export class ListingModalComponent {
       Validators.minLength(3),
       Validators.maxLength(100),
     ]),
-    photo: new FormControl('', Validators.required),
+    photo: new FormControl(''),
     photoFile: new FormControl(null),
     eventDate: new FormControl('', [
       Validators.required,
