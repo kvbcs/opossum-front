@@ -20,7 +20,6 @@ export class LoginComponent {
   private router = inject(Router);
   private snack = inject(MatSnackBar);
 
-  constructor() {}
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
@@ -31,7 +30,7 @@ export class LoginComponent {
   });
 
   onSubmit(): void {
-    if (!this.loginForm.valid) {
+    if (this.loginForm.invalid) {
       this.snack.open('Invalid form!', 'Close', {
         duration: 3000,
         horizontalPosition: 'right',
@@ -45,7 +44,7 @@ export class LoginComponent {
       next: (res: any) => {
         localStorage.setItem('token', res.token);
 
-        this.snack.open('Login successful!', 'Close', {
+        this.snack.open('Login successful !', 'Close', {
           duration: 3000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
