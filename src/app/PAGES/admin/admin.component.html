@@ -1,5 +1,5 @@
 <main class="min-h-screen w-full flex flex-col items-center p-4">
-  <h1 class="text-4xl font-bold text-center my-8 w-full">Users</h1>
+  <h1 class="text-4xl font-bold text-center my-8 w-full">Admin Dashboard</h1>
 
   @if(users().length != 0){
   <div class="w-[90%] max-w-6xl overflow-x-auto">
@@ -13,6 +13,8 @@
           <th class="px-4 py-2">GDPR</th>
           <th class="px-4 py-2">Is Verified</th>
           <th class="px-4 py-2">Is Blocked</th>
+                    <th class="px-4 py-2">Delete</th>
+
         </tr>
       </thead>
       <tbody>
@@ -33,6 +35,12 @@
               (change)="onToggleBlock(user)"
             />
           </td>
+          <td><button
+      class="p-2 w-10 h-10 rounded-full bg-red-600 text-white"
+      (click)="deleteUser(user.id)"
+    >
+      <mat-icon fontIcon="delete"></mat-icon>
+    </button></td>
         </tr>
         }
       </tbody>

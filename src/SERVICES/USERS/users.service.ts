@@ -52,7 +52,7 @@ export class UsersService {
 
   blockUser(id: number): Observable<User> {
     return this.http
-      .put<User>(`${this.baseUrl}/${id}/block`, this.getHeaders())
+      .put<User>(`${this.baseUrl}/admin/${id}/block`, {}, this.getHeaders())
       .pipe(
         tap((res) => {
           console.log(res);
@@ -63,7 +63,7 @@ export class UsersService {
 
   unblockUser(id: number): Observable<User> {
     return this.http
-      .put<User>(`${this.baseUrl}/${id}/unblock`, this.getHeaders())
+      .put<User>(`${this.baseUrl}/admin/${id}/unblock`, {}, this.getHeaders())
       .pipe(
         tap((res) => {
           console.log(res);
@@ -72,11 +72,13 @@ export class UsersService {
       );
   }
   deleteUser(id: number): Observable<User> {
-    return this.http.delete<User>(`${this.baseUrl}/${id}`, this.getHeaders()).pipe(
-      tap((res) => {
-        console.log(res);
-        return res;
-      })
-    );
+    return this.http
+      .delete<User>(`${this.baseUrl}/${id}`, this.getHeaders())
+      .pipe(
+        tap((res) => {
+          console.log(res);
+          return res;
+        })
+      );
   }
 }
