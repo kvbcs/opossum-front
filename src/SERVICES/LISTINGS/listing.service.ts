@@ -73,4 +73,15 @@ export class ListingService {
         })
       );
   }
+
+  deleteListing(id: number): Observable<Listing> {
+    return this.http
+      .delete<Listing>(`${this.baseUrl}/${id}`, this.getHeaders())
+      .pipe(
+        tap((res) => {
+          console.log(res);
+          return res;
+        })
+      );
+  }
 }

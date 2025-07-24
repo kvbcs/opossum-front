@@ -1,8 +1,38 @@
-<main class="min-h-screen w-full flex flex-col items-center p-4">
-  <h1 class="text-4xl font-bold text-center my-8 w-full">Admin Dashboard</h1>
-
+<main
+  class="min-h-screen w-full flex flex-col items-center p-4 mt-10 mb-20 gap-10"
+>
+  <h1 class="text-4xl font-bold text-center w-full">Admin Dashboard</h1>
+  <h2 class="text-2xl font-bold">Users List</h2>
   @if(users().length != 0){
-  <div class="w-[90%] max-w-6xl overflow-x-auto">
+  <div class="w-[90%] max-h-[500px] max-w-6xl overflow-x-auto">
+    <input
+      type="text"
+      class="border p-2 rounded w-[60%]"
+      placeholder="Search users by name or email"
+      [ngModel]="userSearchTerm()"
+      (ngModelChange)="userSearchTerm.set($event); applyUserFilters()"
+    />
+
+    <div class="flex gap-2 items-center">
+      <label for="userSort">Sort:</label>
+      <select
+        [ngModel]="userSortKey()"
+        (ngModelChange)="userSortKey.set($event); applyUserFilters()"
+        class="border p-2 rounded"
+      >
+        <option value="id">Id</option>
+        <option value="firstName">First name</option>
+        <option value="email">Email</option>
+      </select>
+
+      <button
+        (click)="userSortAsc.set(!userSortAsc()); applyUserFilters()"
+        class="p-2 bg-gray-200 rounded"
+      >
+        {{ userSortAsc() ? "⬆️" : "⬇️" }}
+      </button>
+
+    </div>
     <table class="min-w-full table-auto border-collapse text-left">
       <thead class="bg-gradient-to-t from-blue-700 text-white to-sky-500">
         <tr class="text-center">
@@ -13,8 +43,7 @@
           <th class="px-4 py-2">GDPR</th>
           <th class="px-4 py-2">Is Verified</th>
           <th class="px-4 py-2">Is Blocked</th>
-                    <th class="px-4 py-2">Delete</th>
-
+          <th class="px-4 py-2">Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -35,12 +64,14 @@
               (change)="onToggleBlock(user)"
             />
           </td>
-          <td><button
-      class="p-2 w-10 h-10 rounded-full bg-red-600 text-white"
-      (click)="deleteUser(user.id)"
-    >
-      <mat-icon fontIcon="delete"></mat-icon>
-    </button></td>
+          <td>
+            <button
+              class="p-2 w-10 h-10 rounded-full bg-red-600 text-white"
+              (click)="deleteUser(user.id)"
+            >
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </td>
         </tr>
         }
       </tbody>
@@ -48,5 +79,92 @@
   </div>
   } @else {
   <p class="text-2xl text-gray-500 italic">No users found</p>
+  }
+
+  <h2 class="text-2xl font-bold mb-8">Listings List</h2>
+  @if(listings().length != 0){
+  <div class="w-[90%] max-h-[500px] max-w-6xl overflow-x-auto">
+    <input
+  type="text"
+  class="border p-2 rounded w-[60%]"
+  placeholder="Search listings by title or location"
+  [ngModel]="listingSearchTerm()"
+  (ngModelChange)="listingSearchTerm.set($event); applyListingFilters()"
+/>
+<select
+  [ngModel]="listingSortKey()"
+  (ngModelChange)="listingSortKey.set($event); applyListingFilters()"
+  class="border p-2 rounded"
+>
+  <option value="id">Id</option>
+  <option value="title">Title</option>
+  <option value="type">Type</option>
+</select>
+
+<button
+  (click)="listingSortAsc.set(!listingSortAsc()); applyListingFilters()"
+  class="p-2 bg-gray-200 rounded"
+>
+  {{ listingSortAsc() ? '⬆️' : '⬇️' }}
+</button>
+
+
+    <table class="min-w-full table-auto border-collapse text-left">
+      <thead class="bg-gradient-to-t from-blue-700 text-white to-sky-500">
+        <tr class="text-center">
+          <th class="px-4 py-2">Id</th>
+          <th class="px-4 py-2">Title</th>
+          <th class="px-4 py-2">Description</th>
+          <th class="px-4 py-2">Type</th>
+          <th class="px-4 py-2">Localization</th>
+          <th class="px-4 py-2">Status</th>
+          <th class="px-4 py-2">Event Date</th>
+          <th class="px-4 py-2">Is Archived</th>
+
+          <th class="px-4 py-2">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(listing of listings(); track listing.id){
+        <tr class="border-b">
+          <td class="px-4 py-2">{{ listing.id }}</td>
+          <td class="px-4 py-2">
+            {{
+              listing.title.length > 15
+                ? (listing.title | slice : 0 : 10) + "…"
+                : listing.title
+            }}
+          </td>
+          <td class="px-4 py-2">
+            {{
+              listing.description.length > 15
+                ? (listing.description | slice : 0 : 10) + "…"
+                : listing.description
+            }}
+          </td>
+
+          <td class="px-4 py-2">{{ listing.type }}</td>
+          <td class="px-4 py-2">
+            {{ listing.localization }}
+          </td>
+          <td class="px-4 py-2">{{ listing.status }}</td>
+          <td class="px-4 py-2">{{ listing.eventDate | date : "short" }}</td>
+          <td class="px-4 py-2">{{ listing.isArchived ? "✅" : "❌" }}</td>
+
+          <td>
+            <button
+              class="p-2 w-10 h-10 rounded-full bg-red-600 text-white"
+              (click)="deleteListing(listing.id)"
+            >
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  } @else {
+  <p class="text-2xl text-gray-500 italic">No listings found</p>
   }
 </main>
