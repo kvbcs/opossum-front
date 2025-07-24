@@ -4,6 +4,8 @@ import { RegisterComponent } from './PAGES/register/register.component';
 import { LoginComponent } from './PAGES/login/login.component';
 import { ListingCardsComponent } from './COMPONENTS/listing-cards/listing-cards.component';
 import { ListingsComponent } from './PAGES/listings/listings.component';
+import { MessagesComponent } from './PAGES/messages/messages.component';
+import { AdminComponent } from './PAGES/admin/admin.component';
 
 export const routes: Routes = [
   {
@@ -21,13 +23,12 @@ export const routes: Routes = [
     component: LoginComponent,
     title: 'Login Page',
   },
-  {
-    path: 'cards',
-    component: ListingCardsComponent,
-  },
+
   {
     path: 'listings',
     component: ListingsComponent,
     title: 'Listings Page',
   },
+  { path: 'messages', component: MessagesComponent, title: 'Messages Page' },
+  { path: 'admin', component: AdminComponent, title: 'Admin Page' },
 ];

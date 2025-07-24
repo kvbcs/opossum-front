@@ -1,0 +1,44 @@
+<main class="min-h-screen w-full flex flex-col items-center p-4">
+  <h1 class="text-4xl font-bold text-center my-8 w-full">Users</h1>
+
+  @if(users().length != 0){
+  <div class="w-[90%] max-w-6xl overflow-x-auto">
+    <table class="min-w-full table-auto border-collapse text-left">
+      <thead class="bg-gradient-to-t from-blue-700 text-white to-sky-500">
+        <tr class="text-center">
+          <th class="px-4 py-2">Id</th>
+          <th class="px-4 py-2">First name</th>
+          <th class="px-4 py-2">Last name</th>
+          <th class="px-4 py-2">Email</th>
+          <th class="px-4 py-2">GDPR</th>
+          <th class="px-4 py-2">Is Verified</th>
+          <th class="px-4 py-2">Is Blocked</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(user of users(); track user.id){
+        <tr class="border-b">
+          <td class="px-4 py-2">{{ user.id }}</td>
+          <td class="px-4 py-2">{{ user.firstName }}</td>
+          <td class="px-4 py-2">{{ user.lastName }}</td>
+          <td class="px-4 py-2">{{ user.email }}</td>
+          <td class="px-4 py-2">
+            {{ user.gdprAcceptedAt | date : "short" }}
+          </td>
+          <td class="px-4 py-2">{{ user.isVerified ? "✅" : "❌" }}</td>
+          <td class="px-4 py-2">
+            <input
+              type="checkbox"
+              [checked]="user.isBlocked"
+              (change)="onToggleBlock(user)"
+            />
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  } @else {
+  <p class="text-2xl text-gray-500 italic">No users found</p>
+  }
+</main>
