@@ -4,19 +4,39 @@
   <form
     (ngSubmit)="onSubmit()"
     [formGroup]="messageForm"
-    class="w-[80%] h-[80%] overflow-auto rounded-2xl border-2 p-4 flex flex-col justify-around gap-4 bg-white"
+    class="w-[80%] min-h-[400px] max-h-fit overflow-auto rounded-2xl border-2 p-6 flex flex-col justify-around bg-white relative"
   >
     <button
       type="button"
-      class="absolute top-4 right-4 text-red-500 font-bold text-xl"
+      class="absolute top-4 right-4 text-white bg-red-500 p-2 h-10 w-10 rounded-full font-bold text-xl"
       (click)="onCancel()"
     >
       ✖
     </button>
-    <div>
-      <label for="message">Message</label
-      ><input type="text" formControlName="message" />
+    <h1 class="text-4xl font-bold w-full text-center mt-10">Send message</h1>
+    <div class="flex flex-col gap-4">
+      <textarea
+        placeholder="Write your message..."
+        type="text"
+        formControlName="message"
+        class="rounded-2xl border border-black h-[100px] w-full p-2 resize-none leading-snug placeholder:text-gray-400"
+      ></textarea>
+      @if (messageForm.get('message')?.touched &&
+      messageForm.get('message')?.invalid) { @if
+      (messageForm.get('message')?.errors?.['required']) {
+      <small class="text-red-500 font-bold">This field is required</small>
+      } @if (messageForm.get('message')?.errors?.['minlength']) {
+      <small class="text-red-500 font-bold">Minimum 3 characters</small>
+      } @if (messageForm.get('message')?.errors?.['maxlength']) {
+      <small class="text-red-500 font-bold">Maximum 255 characters</small>
+      } }
+
+      <button
+        type="submit"
+        class="bg-blue-500 rounded-full w-2/3 mt-6 p-3 font-bold text-white m-auto"
+      >
+        Submit
+      </button>
     </div>
-    <button type="submit">Submit</button>
   </form>
 </main>

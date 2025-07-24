@@ -30,11 +30,12 @@ export class MessageModalComponent implements OnInit {
   }
   private messageService = inject(MessagesService);
   private snack = inject(MatSnackBar);
-  @Input() listing!: Listing; // obligatoire, plus propre que Listing | null
+  @Input() listing!: Listing; 
   @Output() cancel = new EventEmitter<void>();
   messageForm: FormGroup = new FormGroup({
     message: new FormControl('', [
       Validators.required,
+      Validators.minLength(3),
       Validators.maxLength(255),
     ]),
   });
@@ -52,8 +53,6 @@ export class MessageModalComponent implements OnInit {
       ...this.messageForm.value,
       listingId: this.listing.id,
     };
-    console.log('id user', this.listing.user.id);
-    console.log('id listing', this.listing.id);
 
     this.messageService.createMessage(this.listing.user.id, data).subscribe({
       next: (res) => {

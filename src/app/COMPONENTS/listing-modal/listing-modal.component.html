@@ -9,11 +9,16 @@
     <h2 class="text-2xl font-bold text-center m-auto">Create listing</h2>
     <div class="flex flex-col justify-center gap-3">
       <label for="type">Type</label
-      ><select name="type" formControlName="type">
+      ><select
+        name="type"
+        formControlName="type"
+        class="border-black border-1 rounded-2xl p-1"
+      >
         <option value="LOST">Lost</option>
         <option value="FOUND">Found</option>
       </select>
-      @if (createForm.get('type')?.errors?.['required']){
+      @if (createForm.get('type')?.touched &&
+      createForm.get('type')?.errors?.['required']){
       <small class="text-red-500 font-bold">Type is required</small>
       }
     </div>
@@ -23,7 +28,7 @@
         type="text"
         formControlName="title"
         name="title"
-        class="border-1 w-full rounded-2xl"
+        class="border-1 w-full rounded-2xl px-2"
       />
       @if (createForm.get('title')?.touched &&
       createForm.get('title')?.invalid){ @if
@@ -39,7 +44,7 @@
         type="text"
         name="description"
         formControlName="description"
-        class="border-1 w-full rounded-2xl"
+        class="border-1 w-full rounded-2xl px-2"
       />
       @if (createForm.get('description')?.touched &&
       createForm.get('description')?.invalid){ @if
@@ -56,7 +61,7 @@
         (change)="onFileSelected($event)"
         name="photo"
         [formControl]="photoFileControl"
-        class="border-1 w-full rounded-2xl"
+        class="border-1 w-full rounded-2xl px-2"
       />
       @if (createForm.get('photo')?.touched &&
       createForm.get('photo')?.invalid){ @if
@@ -72,7 +77,7 @@
         type="text"
         name="localization"
         formControlName="localization"
-        class="border-1 w-full rounded-2xl"
+        class="border-1 w-full rounded-2xl px-2"
       />
       @if (createForm.get('localization')?.touched &&
       createForm.get('localization')?.invalid){ @if
@@ -88,7 +93,7 @@
         type="datetime-local"
         name="eventDate"
         formControlName="eventDate"
-        class="border-1 w-full rounded-2xl"
+        class="border-1 w-full rounded-2xl px-2"
       />
       @if (createForm.get('eventDate')?.touched &&
       createForm.get('eventDate')?.invalid){ @if
@@ -106,7 +111,11 @@
       >
         Submit
       </button>
-      <button class="bg-red-500 p-2 rounded-full text-white m-auto w-1/3" (click)="onCancel()" type="button">
+      <button
+        class="bg-red-500 p-2 rounded-full text-white m-auto w-1/3"
+        (click)="onCancel()"
+        type="button"
+      >
         Cancel
       </button>
     </div>

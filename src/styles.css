@@ -10,17 +10,16 @@ body {
 }
 
 .snackbar-success {
-  background-color: #22c55e; 
+  background-color: #22c55e;
   color: white;
- 
 }
 
 .snackbar-error {
-  background-color: #ef4444; 
+  background-color: #ef4444;
   color: white;
 }
 
 .snackbar-warning {
-  background-color: #facc15; 
+  background-color: #facc15;
   color: black;
 }

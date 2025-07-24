@@ -138,7 +138,11 @@ export class ListingModalComponent {
         .post<{ path: string }>('http://localhost:8080/upload', formData)
         .subscribe({
           next: (res) => {
-            this.snack.open('File uploaded successfully !', 'Close');
+            this.snack.open('File uploaded successfully !', 'Close', {
+              duration: 3000,
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+            });
             this.createForm.get('photo')?.setValue(res.path);
           },
           error: (err) => {
