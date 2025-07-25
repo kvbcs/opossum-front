@@ -22,6 +22,12 @@ export type User = {
   createdAt: string;
 };
 
+export type UpdateUser = {
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
 export enum Type {
   LOST = 'Lost',
   FOUND = 'Found',

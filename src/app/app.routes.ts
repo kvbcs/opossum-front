@@ -6,6 +6,7 @@ import { ListingCardsComponent } from './COMPONENTS/listing-cards/listing-cards.
 import { ListingsComponent } from './PAGES/listings/listings.component';
 import { MessagesComponent } from './PAGES/messages/messages.component';
 import { AdminComponent } from './PAGES/admin/admin.component';
+import { ProfileComponent } from './PAGES/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -31,4 +32,9 @@ export const routes: Routes = [
   },
   { path: 'messages', component: MessagesComponent, title: 'Messages Page' },
   { path: 'admin', component: AdminComponent, title: 'Admin Page' },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    title: 'Profile Page',
+  },
 ];

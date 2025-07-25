@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { User } from '../../UTILS/types';
+import { UpdateUser, User } from '../../UTILS/types';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +39,16 @@ export class UsersService {
     );
   }
 
-  updateUser(id: number, user: User): Observable<User> {
+  getUserMe(): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/me`, this.getHeaders()).pipe(
+      tap((res) => {
+        console.log(res);
+        return res;
+      })
+    );
+  }
+
+  updateUser(id: number, user: UpdateUser): Observable<User> {
     return this.http
       .put<User>(`${this.baseUrl}/${id}`, user, this.getHeaders())
       .pipe(

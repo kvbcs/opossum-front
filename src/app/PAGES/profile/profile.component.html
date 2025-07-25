@@ -1,0 +1,26 @@
+<main class="min-h-screen max-h-fit w-full flex flex-col items-center justify-start gap-14 my-10">
+    <h1 class="text-4xl font-bold">My Profile</h1>
+    @if(user()){
+
+        <p>First Name : {{user()?.firstName}}</p>
+                <p>Last Name : {{user()?.lastName}}</p>
+
+                        <p>Email : {{user()?.email}}</p>
+<p>GDPR Date : {{user()?.gdprAcceptedAt | date : 'short'}}</p>
+ <button (click)="toggleEdit()" class="bg-blue-500 text-white font-bold text-xl px-4 py-2 rounded">
+    {{ editMode ? 'Cancel' : 'Edit Profile' }}
+  </button>
+@if(editMode){
+ <form class="mt-2 flex flex-col gap-6 w-[70%]" (ngSubmit)="updateProfile()">
+    <input type="text" [(ngModel)]="formData.firstName" name="firstName" placeholder="First name" required  class="border-1 border-black px-2 rounded-2xl"/>
+    <input type="text" [(ngModel)]="formData.lastName" name="lastName" placeholder="Last name" required class="border-1 border-black px-2 rounded-2xl"/>
+    <input type="email" [(ngModel)]="formData.email" name="email" placeholder="Email" required class="border-1 border-black px-2 rounded-2xl"/>
+
+    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Save</button>
+  </form>
+}
+ 
+    } @else {
+        <p class="italic text-gray-400">Server error.</p>
+    }
+</main>
