@@ -35,6 +35,20 @@ export class MessagesService {
       );
   }
 
+  getMyMessages(): Observable<Message[]> {
+    return this.http
+      .get<Message[]>(
+        `${this.baseUrl}/me`,
+        this.getHeaders()
+      )
+      .pipe(
+        tap((res) => {
+          console.log(res);
+          return res;
+        })
+      );
+  }
+
   getMessageById(id: number): Observable<Message> {
     return this.http
       .get<Message>(`${this.baseUrl}/${id}`, this.getHeaders())
